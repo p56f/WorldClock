@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 
+import * as moment from 'moment-timezone';
+
 @Component({
   selector: 'app-clock',
   templateUrl: './clock.component.html',
@@ -7,19 +9,44 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 })
 export class ClockComponent implements OnInit {
 
+  private _clockCanvas: ElementRef;
+
+  private _size: number;
+
+  private _timeZoneId: string;
+
   @ViewChild('clockCanvas')
-  clockCanvas: ElementRef;
+  set clockCanvas(clockCanvas: ElementRef) {
+    this._clockCanvas = clockCanvas;
+  }
+
+  get clockCanvas() {
+    return this._clockCanvas;
+  }
 
   @Input()
-  width: number;
+  set size(size: number) {
+    this._size = size;
+  }
+
+  get size() {
+    return this._size;
+  }
 
   @Input()
-  height: number;
+  set timeZoneId(timeZoneId: string) {
+    console.log(timeZoneId);
+    this._timeZoneId = timeZoneId;
+  }
 
-  constructor() { }
+  get timeZoneId() {
+    return this._timeZoneId;
+  }
+
+  constructor() {}
 
   ngOnInit() {
-    const clockCanvasElem: HTMLCanvasElement  = this.clockCanvas.nativeElement;
+    const clockCanvasElem: HTMLCanvasElement  = this._clockCanvas.nativeElement;
     const context = clockCanvasElem.getContext('2d');
 
     setInterval(() => this.drawClock(clockCanvasElem, context), 1000);
@@ -39,10 +66,10 @@ export class ClockComponent implements OnInit {
     
     this.drawNumbers(context, radius);
     
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
+    const now = moment().tz(this._timeZoneId);
+    const hours = now.hours();
+    const minutes = now.minutes();
+    const seconds = now.seconds();
     
     const hoursAngle = (hours % 12) * Math.PI / 6 + minutes * Math.PI / (60 * 6) + seconds * Math.PI / (60 * 60 * 6);
     const minutesAngle = minutes * Math.PI / 30 + seconds * Math.PI / (60 * 30);
