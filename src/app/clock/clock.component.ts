@@ -37,7 +37,6 @@ export class ClockComponent implements OnInit {
 
   @Input()
   set timeZoneId(timeZoneId: string) {
-    console.log(timeZoneId);
     this._timeZoneId = timeZoneId;
   }
 
@@ -46,7 +45,7 @@ export class ClockComponent implements OnInit {
   }
 
   get currentDate() {
-    return this._now.format('DD.MM.YYYY');
+    return (this._now) ? this._now.format('DD.MM.YYYY') : undefined;
   }
 
   constructor() {}
