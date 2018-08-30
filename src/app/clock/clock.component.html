@@ -1,5 +1,8 @@
-<div id="clock">
-  <h4>{{timeZoneId}}</h4>
-  <h5>{{currentDate}}</h5>
-  <canvas #clockCanvas [width]="size" [height]="size"></canvas>
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    <h6>{{timeZoneId}} ({{currentDate}})</h6>
+  </div>
+  <div class="card-body">
+    <canvas #clockCanvas [width]="size" [height]="size"></canvas>
+  </div>
 </div>
