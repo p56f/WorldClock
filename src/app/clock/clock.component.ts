@@ -15,6 +15,8 @@ export class ClockComponent implements OnInit {
 
   private _timeZoneId: string;
 
+  private _now: moment.Moment;
+
   @ViewChild('clockCanvas')
   set clockCanvas(clockCanvas: ElementRef) {
     this._clockCanvas = clockCanvas;
@@ -43,6 +45,10 @@ export class ClockComponent implements OnInit {
     return this._timeZoneId;
   }
 
+  get currentDate() {
+    return this._now.format('DD.MM.YYYY');
+  }
+
   constructor() {}
 
   ngOnInit() {
@@ -66,10 +72,10 @@ export class ClockComponent implements OnInit {
     
     this.drawNumbers(context, radius);
     
-    const now = moment().tz(this._timeZoneId);
-    const hours = now.hours();
-    const minutes = now.minutes();
-    const seconds = now.seconds();
+    this._now = moment().tz(this._timeZoneId);
+    const hours = this._now.hours();
+    const minutes = this._now.minutes();
+    const seconds = this._now.seconds();
     
     const hoursAngle = (hours % 12) * Math.PI / 6 + minutes * Math.PI / (60 * 6) + seconds * Math.PI / (60 * 60 * 6);
     const minutesAngle = minutes * Math.PI / 30 + seconds * Math.PI / (60 * 30);
