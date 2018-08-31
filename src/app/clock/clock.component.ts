@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 
+import { faPencilAlt, faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+
 import * as moment from 'moment-timezone';
 
 @Component({
@@ -15,7 +17,11 @@ export class ClockComponent implements OnInit {
 
   private _timeZoneId: string;
 
+  private _editedTimeZoneId: string;
+
   private _now: moment.Moment;
+
+  private _editMode = false;
 
   @ViewChild('clockCanvas')
   set clockCanvas(clockCanvas: ElementRef) {
@@ -44,8 +50,32 @@ export class ClockComponent implements OnInit {
     return this._timeZoneId;
   }
 
+  set editedTimeZoneId(editedTimeZoneId: string) {
+    this._editedTimeZoneId = editedTimeZoneId;
+  }
+
+  get editedTimeZoneId() {
+    return this._editedTimeZoneId;
+  }
+
   get currentDate() {
     return (this._now) ? this._now.format('DD.MM.YYYY') : undefined;
+  }
+
+  get editIcon() {
+    return faPencilAlt;
+  }
+
+  get okIcon() {
+    return faCheckCircle;
+  }
+
+  get cancelIcon() {
+    return faBan;
+  }
+
+  get editMode() {
+    return this._editMode;
   }
 
   constructor() {}
@@ -55,6 +85,22 @@ export class ClockComponent implements OnInit {
     const context = clockCanvasElem.getContext('2d');
 
     setInterval(() => this.drawClock(clockCanvasElem, context), 1000);
+  }
+
+  edit() {
+    this._editedTimeZoneId = this._timeZoneId;
+    this._editMode = true;
+  }
+
+  changeTimeZone() {
+    if (moment.tz.names().includes(this._editedTimeZoneId)) {
+      this._timeZoneId = this._editedTimeZoneId;
+    }
+    this._editMode = false;
+  }
+
+  cancel() {
+    this._editMode = false;
   }
 
   private drawClock(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {

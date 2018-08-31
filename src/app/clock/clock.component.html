@@ -1,6 +1,24 @@
 <div class="card">
   <div class="card-header bg-primary text-white">
-    <h6>{{timeZoneId}} ({{currentDate}})</h6>
+    <div *ngIf="editMode">
+      <input type="text" class="bg-primary text-white only-bottom-border" [(ngModel)]="editedTimeZoneId" 
+        (keyup.enter)="changeTimeZone()">
+      <span class="empty"></span>
+      <a class="text-white" href="#" (click)="changeTimeZone()">
+        <fa-icon [icon]="okIcon"></fa-icon>
+      </a>
+      <span class="empty"></span>
+      <a class="text-white" href="#" (click)="cancel()">
+          <fa-icon [icon]="cancelIcon"></fa-icon>
+        </a>
+    </div>
+    <div *ngIf="!editMode">
+      <span>{{timeZoneId}} ({{currentDate}})</span>
+      <span class="empty"></span>
+      <a class="text-white" href="#" (click)="edit()">
+        <fa-icon [icon]="editIcon"></fa-icon>
+      </a>
+    </div>
   </div>
   <div class="card-body">
     <canvas #clockCanvas [width]="size" [height]="size"></canvas>

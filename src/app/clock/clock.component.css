@@ -1,0 +1,10 @@
+span.empty { 
+    width: 10px; 
+    display: inline-block; 
+}
+
+input.only-bottom-border {
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+}
