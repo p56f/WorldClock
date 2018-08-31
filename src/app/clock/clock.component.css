@@ -4,7 +4,8 @@ span.empty {
 }
 
 input.only-bottom-border {
-    border-left: 0;
-    border-top: 0;
-    border-right: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: 1px solid white;
 }
