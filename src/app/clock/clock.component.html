@@ -2,7 +2,7 @@
   <div class="card-header bg-primary text-white">
     <div *ngIf="editMode">
       <input type="text" class="bg-primary text-white only-bottom-border" [(ngModel)]="editedTimeZoneId" 
-        (keyup.enter)="changeTimeZone()">
+        (keyup.enter)="changeTimeZone()" (keyup.esc)="cancel()">
       <span class="empty"></span>
       <a class="text-white" href="#" (click)="changeTimeZone()">
         <fa-icon [icon]="okIcon"></fa-icon>
