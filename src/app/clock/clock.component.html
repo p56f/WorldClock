@@ -1,21 +1,18 @@
 <div class="card">
   <div class="card-header bg-primary text-white">
     <div *ngIf="editMode">
-      <input type="text" class="bg-primary text-white only-bottom-border" [(ngModel)]="editedTimeZoneId" 
+      <input type="text" class="bg-primary text-white only-bottom-border" [(ngModel)]="editedTimeZoneId"
         (keyup.enter)="changeTimeZone()" (keyup.esc)="cancel()">
-      <span class="empty"></span>
-      <a class="text-white" href="#" (click)="changeTimeZone()">
+      <a class="text-white extra-padding" href="#" (click)="changeTimeZone()">
         <fa-icon [icon]="okIcon"></fa-icon>
       </a>
-      <span class="empty"></span>
-      <a class="text-white" href="#" (click)="cancel()">
+      <a class="text-white extra-padding" href="#" (click)="cancel()">
           <fa-icon [icon]="cancelIcon"></fa-icon>
         </a>
     </div>
     <div *ngIf="!editMode">
       <span>{{timeZoneId}} ({{currentDate}})</span>
-      <span class="empty"></span>
-      <a class="text-white" href="#" (click)="edit()">
+      <a class="text-white extra-padding" href="#" (click)="edit()">
         <fa-icon [icon]="editIcon"></fa-icon>
       </a>
     </div>

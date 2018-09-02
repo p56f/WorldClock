@@ -1,6 +1,5 @@
-span.empty { 
-    width: 10px; 
-    display: inline-block; 
+.extra-padding { 
+    padding-left: 10px; 
 }
 
 input.only-bottom-border {
