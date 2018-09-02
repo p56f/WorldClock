@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-
+import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import { faPencilAlt, faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 import * as moment from 'moment-timezone';
@@ -93,7 +94,8 @@ export class ClockComponent implements OnInit {
   }
 
   changeTimeZone() {
-    if (moment.tz.names().includes(this._editedTimeZoneId)) {
+    const allTimeZones = moment.tz.names();
+    if (allTimeZones.includes(this._editedTimeZoneId)) {
       this._timeZoneId = this._editedTimeZoneId;
     }
     this._editMode = false;
@@ -101,6 +103,15 @@ export class ClockComponent implements OnInit {
 
   cancel() {
     this._editMode = false;
+  }
+
+  search(text$: Observable<string>) {
+    const allTimeZones = moment.tz.names();
+    return text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(txt => txt.length < 2 ? []
+        : allTimeZones.filter(v => v.toLowerCase().indexOf(txt.toLowerCase()) > -1).slice(0, 10)));
   }
 
   private drawClock(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
