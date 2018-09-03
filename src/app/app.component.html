@@ -1,10 +1,5 @@
 <div class="container">
   <div class="card-deck text-center">
-    <app-clock size="300" timeZoneId="America/Los_Angeles"></app-clock>
-    <app-clock size="300" timeZoneId="Atlantic/Reykjavik"></app-clock>
-    <app-clock size="300" timeZoneId="Europe/Warsaw"></app-clock>
-    <app-clock size="300" timeZoneId="Europe/Helsinki"></app-clock>
-    <app-clock size="300" timeZoneId="Asia/Calcutta"></app-clock>
-    <app-clock size="300" timeZoneId="Asia/Tokyo"></app-clock>
+    <app-clock *ngFor="let tz of timeZones" size="300" [timeZoneId]="tz"></app-clock>
   </div>
 </div>

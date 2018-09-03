@@ -7,13 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  private _currentTime: string;
+  private _timeZones: string[];
 
-  get currentTime() {
-    return this._currentTime;
+  get timeZones() {
+    return this._timeZones;
   }
 
   ngOnInit(): void {
-    setInterval(() => {this._currentTime = new Date().toLocaleTimeString()}, 1000);
+    this._timeZones = ['America/Los_Angeles', 'Atlantic/Reykjavik', 'Europe/Warsaw', 'Europe/Helsinki', 
+      'Asia/Calcutta', 'Asia/Tokyo'];
   }
 }
