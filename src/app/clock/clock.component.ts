@@ -24,6 +24,8 @@ export class ClockComponent implements OnInit {
 
   private _editMode = false;
 
+  private _alert = false;
+
   @ViewChild('clockCanvas')
   set clockCanvas(clockCanvas: ElementRef) {
     this._clockCanvas = clockCanvas;
@@ -79,6 +81,10 @@ export class ClockComponent implements OnInit {
     return this._editMode;
   }
 
+  get alert() {
+    return this._alert;
+  }
+
   constructor() {}
 
   ngOnInit() {
@@ -97,12 +103,19 @@ export class ClockComponent implements OnInit {
     const allTimeZones = moment.tz.names();
     if (allTimeZones.includes(this._editedTimeZoneId)) {
       this._timeZoneId = this._editedTimeZoneId;
+    } else {
+      this._alert = true;
+      setTimeout(() => this.closeAlert(), 5000);
     }
     this._editMode = false;
   }
 
   cancel() {
     this._editMode = false;
+  }
+
+  closeAlert() {
+    this._alert = false;
   }
 
   search(text$: Observable<string>) {
