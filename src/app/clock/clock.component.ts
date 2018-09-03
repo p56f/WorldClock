@@ -60,7 +60,7 @@ export class ClockComponent implements OnInit {
   }
 
   get currentDate() {
-    return (this._now) ? this._now.format('DD.MM.YYYY') : undefined;
+    return (this._now) ? this._now.format('DD.MM.YYYY HH:mm:ss') : undefined;
   }
 
   get editIcon() {
