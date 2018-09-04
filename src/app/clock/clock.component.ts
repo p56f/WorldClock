@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { faPencilAlt, faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { CookieService } from 'ngx-cookie-service';
 
 import * as moment from 'moment-timezone';
 
@@ -13,6 +14,8 @@ import * as moment from 'moment-timezone';
 export class ClockComponent implements OnInit {
 
   private _clockCanvas: ElementRef;
+
+  private _index: number;
 
   private _size: number;
 
@@ -33,6 +36,15 @@ export class ClockComponent implements OnInit {
 
   get clockCanvas() {
     return this._clockCanvas;
+  }
+
+  @Input()
+  set index(index: number) {
+    this._index = index;
+  }
+
+  get index() {
+    return this._index;
   }
 
   @Input()
@@ -85,7 +97,7 @@ export class ClockComponent implements OnInit {
     return this._alert;
   }
 
-  constructor() {}
+  constructor(private cookieService: CookieService) {}
 
   ngOnInit() {
     const clockCanvasElem: HTMLCanvasElement  = this._clockCanvas.nativeElement;
@@ -103,6 +115,7 @@ export class ClockComponent implements OnInit {
     const allTimeZones = moment.tz.names();
     if (allTimeZones.includes(this._editedTimeZoneId)) {
       this._timeZoneId = this._editedTimeZoneId;
+      this.saveToCookie('clocks', this._timeZoneId); 
     } else {
       this._alert = true;
       setTimeout(() => this.closeAlert(), 5000);
@@ -125,6 +138,15 @@ export class ClockComponent implements OnInit {
       distinctUntilChanged(),
       map(txt => txt.length < 2 ? []
         : allTimeZones.filter(v => v.toLowerCase().indexOf(txt.toLowerCase()) > -1).slice(0, 10)));
+  }
+
+  private saveToCookie(name: string, tz: string) {
+    const clocksCookieExists = this.cookieService.check(name);
+    if (clocksCookieExists) {
+      const timeZones = this.cookieService.get(name).split(',');
+      timeZones[this._index] = tz;
+      this.cookieService.set(name, timeZones.join(), 7);
+    }
   }
 
   private drawClock(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {

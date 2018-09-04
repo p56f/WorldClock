@@ -1,5 +1,8 @@
+<ngb-alert id="cookiesInfo" *ngIf="cookiesInfo" (close)="closeCookiesInfo()">
+  This website uses cookies to store information about time zones.
+</ngb-alert>
 <div class="container">
   <div class="card-deck text-center">
-    <app-clock *ngFor="let tz of timeZones" size="300" [timeZoneId]="tz"></app-clock>
+    <app-clock *ngFor="let tz of timeZones; let i = index" [index]="i" size="300" [timeZoneId]="tz"></app-clock>
   </div>
 </div>

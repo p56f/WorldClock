@@ -1,0 +1,9 @@
+#cookiesInfo {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    margin-bottom: 0px;
+    width: 100%;
+    text-align: center;
+    z-index: 999;
+}
