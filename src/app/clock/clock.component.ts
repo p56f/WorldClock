@@ -113,7 +113,7 @@ export class ClockComponent implements OnInit {
 
   changeTimeZone() {
     const allTimeZones = moment.tz.names();
-    if (allTimeZones.includes(this._editedTimeZoneId)) {
+    if (allTimeZones.indexOf(this._editedTimeZoneId) > -1) {
       this._timeZoneId = this._editedTimeZoneId;
       this.saveToCookie('clocks', this._timeZoneId); 
     } else {
