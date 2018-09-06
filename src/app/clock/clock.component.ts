@@ -103,7 +103,7 @@ export class ClockComponent implements OnInit {
     const clockCanvasElem: HTMLCanvasElement  = this._clockCanvas.nativeElement;
     const context = clockCanvasElem.getContext('2d');
 
-    setInterval(() => this.drawClock(clockCanvasElem, context), 1000);
+    this.drawClock(clockCanvasElem, context);
   }
 
   edit() {
@@ -113,7 +113,7 @@ export class ClockComponent implements OnInit {
 
   changeTimeZone() {
     const allTimeZones = moment.tz.names();
-    if (allTimeZones.indexOf(this._editedTimeZoneId) > -1) {
+    if (allTimeZones.includes(this._editedTimeZoneId)) {
       this._timeZoneId = this._editedTimeZoneId;
       this.saveToCookie('clocks', this._timeZoneId); 
     } else {
@@ -177,6 +177,8 @@ export class ClockComponent implements OnInit {
     this.drawHand(context, secondsAngle, radius * 0.8, radius * 0.02);
     
     context.translate(-width / 2, -height / 2);
+
+    window.requestAnimationFrame(() => this.drawClock(canvas, context))
   }
   
   private drawNumbers(context: CanvasRenderingContext2D, radius: number) {
